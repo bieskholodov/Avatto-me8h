@@ -1,24 +1,25 @@
-туйя климат
 
-Пример фрагмента YAML
-substitutions:
-  device_name: warm-floor
-
-packages:
-  device_common: !include .device_common.yaml
-
-esphome:
-  name: ${device_name}
-  platform: ESP8266
-  board: esp01_1m
-
+# Enable logging
 logger:
   baud_rate: 0
 
+
+
+captive_portal:
 uart:
   rx_pin: GPIO3
   tx_pin: GPIO1
   baud_rate: 9600
+
+
+time:
+  - platform: sntp
+    id: sntp_time
+    timezone: Europe/Tiraspol
+    servers:
+     - 0.pool.ntp.org
+     - 1.pool.ntp.org
+     - 2.pool.ntp.org
 
 tuya:
   time_id: sntp_time
@@ -28,7 +29,7 @@ tuya:
 
 climate:
   - platform: tuya
-    name: "Warm floor"
+    name: "Термостат детская"
     switch_datapoint: 1
     target_temperature_datapoint: 16
     target_temperature_multiplier: 1.0
@@ -40,12 +41,12 @@ climate:
 
 switch:
   - platform: "tuya"
-    name: "Warm floor lock"
+    name: "Термостат детская lock"
     switch_datapoint: 40
 
 select:
   - platform: "tuya"
-    name: "Warm floor sensor selection"
+    name: "Термостат детская sensor selection"
     enum_datapoint: 43
     options:
       0: Internal
